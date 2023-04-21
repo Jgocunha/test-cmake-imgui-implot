@@ -9,8 +9,7 @@ set(IMGUI_HEADERS
     ./imgui/imstb_textedit.h
     ./imgui/imstb_truetype.h    
     ./imgui/backends/imgui_impl_win32.h
-    ./imgui/backends/imgui_impl_opengl3.h
-    ./imgui/backends/imgui_impl_opengl3_loader.h
+    ./imgui/backends/imgui_impl_dx12.h
     ./imgui/misc/cpp/imgui_stdlib.h
 )
 
@@ -21,7 +20,7 @@ set(IMGUI_SRC
     ./imgui/imgui_widgets.cpp
     ./imgui/imgui.cpp
     ./imgui/backends/imgui_impl_win32.cpp
-    ./imgui/backends/imgui_impl_opengl3.cpp
+    ./imgui/backends/imgui_impl_dx12.cpp
     ./imgui/misc/cpp/imgui_stdlib.cpp
 )
 
@@ -29,7 +28,7 @@ find_package(OpenGL REQUIRED)
 
 add_library(imgui ${IMGUI_HEADERS} ${IMGUI_SRC})
 
-target_link_libraries(imgui PUBLIC OpenGL::GL)
+target_link_libraries(imgui PUBLIC "d3d12.lib" "dxgi.lib" "d3dcompiler.lib")
 target_compile_definitions(imgui PRIVATE IMGUI_DLL_EXPORT)
 
 include_directories(./imgui/ ./imgui/examples ./imgui/examples/libs/gl3w ./imgui/backends ./imgui/misc/cpp)
