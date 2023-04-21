@@ -24,8 +24,6 @@ set(IMGUI_SRC
     ./imgui/misc/cpp/imgui_stdlib.cpp
 )
 
-find_package(OpenGL REQUIRED)
-
 add_library(imgui ${IMGUI_HEADERS} ${IMGUI_SRC})
 
 target_link_libraries(imgui PUBLIC "d3d12.lib" "dxgi.lib" "d3dcompiler.lib")
