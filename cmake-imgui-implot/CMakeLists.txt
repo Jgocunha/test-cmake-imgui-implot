@@ -15,3 +15,5 @@ endif()
 # TODO: Add tests and install targets if needed.
 
 add_subdirectory(lib)
+
+target_link_libraries(cmake-imgui-implot PUBLIC imgui)
