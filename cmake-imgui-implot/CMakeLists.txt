@@ -17,3 +17,5 @@ endif()
 add_subdirectory(lib)
 
 target_link_libraries(cmake-imgui-implot PUBLIC imgui)
+target_link_libraries(cmake-imgui-implot PUBLIC implot)
+

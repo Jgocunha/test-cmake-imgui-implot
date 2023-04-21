@@ -30,3 +30,24 @@ target_link_libraries(imgui PUBLIC "d3d12.lib" "dxgi.lib" "d3dcompiler.lib")
 target_compile_definitions(imgui PRIVATE IMGUI_DLL_EXPORT)
 
 include_directories(./imgui/ ./imgui/examples ./imgui/examples/libs/gl3w ./imgui/backends ./imgui/misc/cpp)
+
+#setup implot library
+set(IMPLOT_HEADERS ./implot/implot.h ./implot/implot_internal.h)
+set(IMPLOT_SRC     ./implot/implot.cpp ./implot/implot_items.cpp ./implot/implot_demo.cpp) 
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../implot/backends")
+list(APPEND IMPLOT_HEADERS ./implot/backends/implot_backend.h ./implot/backends/implot_impl_opengl3.h)
+list(APPEND IMPLOT_SRC ./implot/backends/implot_backend.h ./implot/backends/implot_impl_opengl3.cpp)
+endif()
+
+add_library(implot ${IMPLOT_HEADERS} ${IMPLOT_SRC})
+target_link_libraries(implot PUBLIC imgui)
+target_compile_definitions(implot PUBLIC IMPLOT_DEBUG IMPLOT_DLL_EXPORT IMPLOT_BACKEND_ENABLE_OPENGL3 IMGUI_IMPL_OPENGL_LOADER_GLAD)
+set_property(TARGET implot PROPERTY CXX_STANDARD 11)
+#if(MSVC)
+#  target_compile_options(implot PRIVATE /W4 /WX /arch:AVX2 /fp:fast /permissive-) 
+#else()
+#  target_compile_options(implot PRIVATE -Wall -Wextra -pedantic -Werror -mavx2 -Ofast)
+#endif()
+
+include_directories(./implot/)

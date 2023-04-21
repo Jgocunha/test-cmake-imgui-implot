@@ -13,6 +13,9 @@
 #include <dxgi1_4.h>
 #include <tchar.h>
 
+#include "lib/implot\implot.h"
+#include "lib/implot\implot_internal.h"
+
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
 #endif
@@ -56,6 +59,24 @@ void WaitForLastSubmittedFrame();
 FrameContext* WaitForNextFrameResources();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+static bool show_demo_plot = true;
+
+void renderImPlotTestPlot()
+{
+    ImGui::Begin("Test window for plot");
+
+    if (ImPlot::BeginPlot("Test plot"))
+    {
+        ImPlot::SetupAxes("x-axis", "y axis");
+        ImPlot::SetupLegend(ImPlotLocation_NorthEast, ImPlotLegendFlags_Outside);
+
+        ImPlot::EndPlot();
+    }
+
+    ImGui::End();
+}
+
+
 // Main code
 int main(int, char**)
 {
@@ -80,6 +101,9 @@ int main(int, char**)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    // Setup ImPlot context
+    ImPlot::CreateContext();
+
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -138,9 +162,13 @@ int main(int, char**)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
+
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
+        
+        if (show_demo_plot)
+            renderImPlotTestPlot();
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
         {
